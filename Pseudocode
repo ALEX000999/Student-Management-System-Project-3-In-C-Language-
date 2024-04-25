@@ -3,11 +3,11 @@ START
 DEFINE Structure Student {
     String name[50]
     Integer ID
-    String department[50]
+    String department[3]
     Integer age
     Character gender
     Float cgpa
-    String mobileNumber[15]
+    String mobileNumber[11]
 }
 
 DEFINE Array students[10000]
