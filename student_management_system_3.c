@@ -4,11 +4,11 @@
 struct Student {
     char name[50];
     int ID;
-    char department[50];
+    char department[3];
     int age;
     char gender;
     float cgpa;
-    char mobileNumber[15];
+    char mobileNumber[11];
 };
 
 struct Student students[10000];
