@@ -37,7 +37,6 @@ FUNCTION addStudent():
 
 FUNCTION searchStudent():
     DECLARE Integer searchID
-    DECLARE String searchMobile
     
     OUTPUT "Enter student ID to search: "
     INPUT searchID
