@@ -1,0 +1,152 @@
+START
+
+DEFINE Structure Student {
+    String name[50]
+    Integer ID
+    String department[50]
+    Integer age
+    Character gender
+    Float cgpa
+    String mobileNumber[15]
+}
+
+DEFINE Array students[10000]
+Integer numOfStudents = 0
+
+FUNCTION addStudent():
+    DECLARE Structure Student newStudent
+    
+    OUTPUT "Enter student name: "
+    INPUT newStudent.name
+    OUTPUT "Enter student ID: "
+    INPUT newStudent.ID
+    OUTPUT "Enter student department: "
+    INPUT newStudent.department
+    OUTPUT "Enter student age: "
+    INPUT newStudent.age
+    OUTPUT "Enter student gender (M/F): "
+    INPUT newStudent.gender
+    OUTPUT "Enter student CGPA: "
+    INPUT newStudent.cgpa
+    OUTPUT "Enter student mobile number: "
+    INPUT newStudent.mobileNumber
+    
+    students[numOfStudents] = newStudent
+    numOfStudents += 1
+    OUTPUT "Student added successfully."
+
+FUNCTION searchStudent():
+    DECLARE Integer searchID
+    DECLARE String searchMobile
+    
+    OUTPUT "Enter student ID to search: "
+    INPUT searchID
+    
+    FOR i = 0 to numOfStudents:
+        IF students[i].ID == searchID THEN
+            OUTPUT "Student found:"
+            OUTPUT "Name:", students[i].name
+            OUTPUT "ID:", students[i].ID
+            OUTPUT "Department:", students[i].department
+            OUTPUT "Age:", students[i].age
+            OUTPUT "Gender:", students[i].gender
+            OUTPUT "CGPA:", students[i].cgpa
+            OUTPUT "Mobile:", students[i].mobileNumber
+            RETURN
+        END IF
+    END FOR
+    
+    OUTPUT "Student with ID", searchID, "not found."
+
+FUNCTION updateStudent():
+    DECLARE Integer updateID
+    DECLARE Float newCGPA
+    DECLARE String newMobile
+    
+    OUTPUT "Enter student ID to update: "
+    INPUT updateID
+    
+    FOR i = 0 to numOfStudents:
+        IF students[i].ID == updateID THEN
+            OUTPUT "Enter new CGPA: "
+            INPUT newCGPA
+            students[i].cgpa = newCGPA
+            OUTPUT "Enter new mobile number: "
+            INPUT newMobile
+            students[i].mobileNumber = newMobile
+            OUTPUT "Student information updated successfully."
+            RETURN
+        END IF
+    END FOR
+    
+    OUTPUT "Student with ID", updateID, "not found."
+
+FUNCTION deleteStudent():
+    DECLARE Integer deleteID
+    DECLARE Integer found = 0
+
+    OUTPUT "Enter student ID to delete: "
+    INPUT deleteID
+
+    FOR i = 0 to numOfStudents:
+        IF students[i].ID == deleteID THEN
+            FOR j = i to numOfStudents - 1:
+                students[j] = students[j + 1]
+            END FOR
+            numOfStudents -= 1
+            OUTPUT "Student with ID", deleteID, "deleted successfully."
+            found = 1
+            EXIT FOR
+        END IF
+    END FOR
+
+    IF found == 0 THEN
+        OUTPUT "Student with ID", deleteID, "not found."
+    END IF
+
+FUNCTION displayStudents():
+    OUTPUT "List of all students:"
+    FOR i = 0 to numOfStudents:
+        OUTPUT "Name:", students[i].name
+        OUTPUT "ID:", students[i].ID
+        OUTPUT "Department:", students[i].department
+        OUTPUT "Age:", students[i].age
+        OUTPUT "Gender:", students[i].gender
+        OUTPUT "CGPA:", students[i].cgpa
+        OUTPUT "Mobile:", students[i].mobileNumber
+        OUTPUT "\n"
+    END FOR
+
+FUNCTION main():
+    DECLARE Integer choice
+    
+    REPEAT
+        OUTPUT "\nStudent Management System"
+        OUTPUT "1. Add student"
+        OUTPUT "2. Search student"
+        OUTPUT "3. Update student information"
+        OUTPUT "4. Delete student"
+        OUTPUT "5. Display all students"
+        OUTPUT "6. Exit"
+        OUTPUT "Enter your choice: "
+        INPUT choice
+        
+        SWITCH choice:
+            CASE 1:
+                addStudent()
+            CASE 2:
+                searchStudent()
+            CASE 3:
+                updateStudent()
+            CASE 4:
+                deleteStudent()
+            CASE 5:
+                displayStudents()
+            CASE 6:
+                OUTPUT "Exiting..."
+            DEFAULT:
+                OUTPUT "Invalid choice. Please try again."
+        END SWITCH
+    UNTIL choice == 6
+
+END
