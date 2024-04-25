@@ -38,7 +38,6 @@ void addStudent() {
 
 void searchStudent() {
     int searchID;
-    char searchMobile[15];
     
     printf("Enter student ID to search: ");
     scanf("%d", &searchID);
