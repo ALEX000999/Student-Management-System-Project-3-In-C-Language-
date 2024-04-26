@@ -1,151 +1,102 @@
 START
 
-DEFINE Structure Student {
-    String name[50]
-    Integer ID
-    String department[3]
-    Integer age
-    Character gender
-    Float cgpa
-    String mobileNumber[11]
-}
+Define struct Student:
+    name: string
+    ID: integer
+    department: string
+    age: integer
+    gender: character
+    cgpa: float
+    mobileNumber: string
 
-DEFINE Array students[10000]
-Integer numOfStudents = 0
+Define array students of size 10000 of struct Student
+Initialize numOfStudents to 0
 
-FUNCTION addStudent():
-    DECLARE Structure Student newStudent
-    
-    OUTPUT "Enter student name: "
-    INPUT newStudent.name
-    OUTPUT "Enter student ID: "
-    INPUT newStudent.ID
-    OUTPUT "Enter student department: "
-    INPUT newStudent.department
-    OUTPUT "Enter student age: "
-    INPUT newStudent.age
-    OUTPUT "Enter student gender (M/F): "
-    INPUT newStudent.gender
-    OUTPUT "Enter student CGPA: "
-    INPUT newStudent.cgpa
-    OUTPUT "Enter student mobile number: "
-    INPUT newStudent.mobileNumber
-    
-    students[numOfStudents] = newStudent
-    numOfStudents += 1
-    OUTPUT "Student added successfully."
+Function addStudent():
+    Create newStudent of type Student
+    Prompt user to input student details:
+        - name
+        - ID
+        - department
+        - age
+        - gender
+        - cgpa
+        - mobileNumber
+    Store input into newStudent
+    Add newStudent to students array at index numOfStudents
+    Increment numOfStudents by 1
+    Print "Student added successfully"
 
-FUNCTION searchStudent():
-    DECLARE Integer searchID
-    
-    OUTPUT "Enter student ID to search: "
-    INPUT searchID
-    
-    FOR i = 0 to numOfStudents:
-        IF students[i].ID == searchID THEN
-            OUTPUT "Student found:"
-            OUTPUT "Name:", students[i].name
-            OUTPUT "ID:", students[i].ID
-            OUTPUT "Department:", students[i].department
-            OUTPUT "Age:", students[i].age
-            OUTPUT "Gender:", students[i].gender
-            OUTPUT "CGPA:", students[i].cgpa
-            OUTPUT "Mobile:", students[i].mobileNumber
-            RETURN
-        END IF
-    END FOR
-    
-    OUTPUT "Student with ID", searchID, "not found."
+Function searchStudent():
+    Prompt user to input student ID to search
+    Iterate over students array:
+        If student ID matches input:
+            Print student details
+            Return
+    Print "Student not found"
 
-FUNCTION updateStudent():
-    DECLARE Integer updateID
-    DECLARE Float newCGPA
-    DECLARE String newMobile
-    
-    OUTPUT "Enter student ID to update: "
-    INPUT updateID
-    
-    FOR i = 0 to numOfStudents:
-        IF students[i].ID == updateID THEN
-            OUTPUT "Enter new CGPA: "
-            INPUT newCGPA
-            students[i].cgpa = newCGPA
-            OUTPUT "Enter new mobile number: "
-            INPUT newMobile
-            students[i].mobileNumber = newMobile
-            OUTPUT "Student information updated successfully."
-            RETURN
-        END IF
-    END FOR
-    
-    OUTPUT "Student with ID", updateID, "not found."
+Function updateStudent():
+    Prompt user to input student ID to update
+    Iterate over students array:
+        If student ID matches input:
+            Prompt user to input new CGPA
+            Update student's CGPA with input
+            Prompt user to input new mobile number
+            Update student's mobile number with input
+            Print "Student information updated successfully"
+            Return
+    Print "Student not found"
 
-FUNCTION deleteStudent():
-    DECLARE Integer deleteID
-    DECLARE Integer found = 0
+Function deleteStudent():
+    Prompt user to input student ID to delete
+    Iterate over students array:
+        If student ID matches input:
+            Shift elements to left to remove student
+            Decrement numOfStudents by 1
+            Print "Student deleted successfully"
+            Return
+    Print "Student not found"
 
-    OUTPUT "Enter student ID to delete: "
-    INPUT deleteID
+Function displayStudentsBySpecificDepartment(department):
+    Print "List of students in" department "department:"
+    Iterate over students array:
+        If student's department matches input department:
+            Print student details
+            Set found to true
+    If found is false:
+        Print "No students found in" department "department."
 
-    FOR i = 0 to numOfStudents:
-        IF students[i].ID == deleteID THEN
-            FOR j = i to numOfStudents - 1:
-                students[j] = students[j + 1]
-            END FOR
-            numOfStudents -= 1
-            OUTPUT "Student with ID", deleteID, "deleted successfully."
-            found = 1
-            EXIT FOR
-        END IF
-    END FOR
+Function displayStudents():
+    Prompt user to input department
+    Call displayStudentsBySpecificDepartment with input department
 
-    IF found == 0 THEN
-        OUTPUT "Student with ID", deleteID, "not found."
-    END IF
+Main function:
+    Define choice as integer
+    Do:
+        Print "Student Management System menu:"
+        Print options
+        Prompt user to input choice
+        Switch on choice:
+            Case 1:
+                Call addStudent()
+                Break
+            Case 2:
+                Call searchStudent()
+                Break
+            Case 3:
+                Call updateStudent()
+                Break
+            Case 4:
+                Call deleteStudent()
+                Break
+            Case 5:
+                Call displayStudents()
+                Break
+            Case 6:
+                Print "Exiting..."
+                Break
+            Default:
+                Print "Invalid choice. Please try again."
+    While choice is not 6
 
-FUNCTION displayStudents():
-    OUTPUT "List of all students:"
-    FOR i = 0 to numOfStudents:
-        OUTPUT "Name:", students[i].name
-        OUTPUT "ID:", students[i].ID
-        OUTPUT "Department:", students[i].department
-        OUTPUT "Age:", students[i].age
-        OUTPUT "Gender:", students[i].gender
-        OUTPUT "CGPA:", students[i].cgpa
-        OUTPUT "Mobile:", students[i].mobileNumber
-        OUTPUT "\n"
-    END FOR
-
-FUNCTION main():
-    DECLARE Integer choice
-    
-    REPEAT
-        OUTPUT "\nStudent Management System"
-        OUTPUT "1. Add student"
-        OUTPUT "2. Search student"
-        OUTPUT "3. Update student information"
-        OUTPUT "4. Delete student"
-        OUTPUT "5. Display all students"
-        OUTPUT "6. Exit"
-        OUTPUT "Enter your choice: "
-        INPUT choice
-        
-        SWITCH choice:
-            CASE 1:
-                addStudent()
-            CASE 2:
-                searchStudent()
-            CASE 3:
-                updateStudent()
-            CASE 4:
-                deleteStudent()
-            CASE 5:
-                displayStudents()
-            CASE 6:
-                OUTPUT "Exiting..."
-            DEFAULT:
-                OUTPUT "Invalid choice. Please try again."
-        END SWITCH
-    UNTIL choice == 6
-
-END
+End of program
