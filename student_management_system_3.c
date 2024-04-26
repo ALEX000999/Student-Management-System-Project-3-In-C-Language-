@@ -4,7 +4,7 @@
 struct Student {
     char name[50];
     int ID;
-    char department[3];
+    char department[5];
     int age;
     char gender;
     float cgpa;
@@ -21,7 +21,7 @@ void addStudent() {
     scanf("%s", newStudent.name);
     printf("Enter student ID: ");
     scanf("%d", &newStudent.ID);
-    printf("Enter student department: ");
+    printf("Enter student department (CSE/BBA/EEE/MSJ/ENGLISH): ");
     scanf("%s", newStudent.department);
     printf("Enter student age: ");
     scanf("%d", &newStudent.age);
@@ -106,14 +106,28 @@ void deleteStudent() {
         printf("Student with ID %d not found.\n", deleteID);
 }
 
-void displayStudents() {
-    printf("List of all students:\n");
+void displayStudentsBySpecificDepartment(const char* department) {
+    printf("List of students in %s department:\n", department);
+    int found = 0;
     for (int i = 0; i < numOfStudents; i++) {
-        printf("Name: %s\nID: %d\nDepartment: %s\nAge: %d\nGender: %c\nCGPA: %.2f\nMobile: %s\n\n",
-               students[i].name, students[i].ID, students[i].department, students[i].age, students[i].gender,
-               students[i].cgpa, students[i].mobileNumber);
+        if (strcmp(students[i].department, department) == 0) {
+            printf("Name: %s\nID: %d\nAge: %d\nGender: %c\nCGPA: %.2f\nMobile: %s\n\n",
+                   students[i].name, students[i].ID, students[i].age, students[i].gender,
+                   students[i].cgpa, students[i].mobileNumber);
+            found = 1;
+        }
     }
+    if (!found)
+        printf("No students found in %s department.\n", department);
 }
+
+void displayStudents() {
+    char department[5];
+    printf("Enter department (CSE/BBA/EEE/MSJ/ENGLISH): ");
+    scanf("%s", department);
+    displayStudentsBySpecificDepartment(department);
+}
+
 
 int main() {
     int choice;
@@ -124,7 +138,7 @@ int main() {
         printf("2. Search student\n");
         printf("3. Update student information\n");
         printf("4. Delete student\n");
-        printf("5. Display all students\n");
+        printf("5. Display students by department\n");
         printf("6. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
